@@ -1037,9 +1037,9 @@ needs_concrete_A(::AlgebraicMultigridJL) = true
 """
     PyAMGJL(solver = :ruge_stuben; kwargs...)
 
-A wrapper for [PyAMG.jl](https://github.com/cortner/PyAMG.jl), a Julia interface to the
-Python [PyAMG](https://pyamg.readthedocs.io) algebraic multigrid library. Requires
-a Python installation with `scipy` and `pyamg`.
+A wrapper for [PyAMG](https://pyamg.readthedocs.io), the Python algebraic multigrid library,
+accessed via the `LinearSolvePyAMG.jl` sub-package bundled with LinearSolve.jl. Requires a
+Python environment with `pyamg` and `scipy` installed.
 
 ## Positional Arguments
 
@@ -1057,7 +1057,7 @@ step are taken from the `LinearProblem` and override any corresponding kwargs.
 ## Example
 
 ```julia
-using LinearSolve, PyAMG, SparseArrays
+using LinearSolve, LinearSolvePyAMG, SparseArrays
 A = sprand(100, 100, 0.1) + 10I
 b = rand(100)
 prob = LinearProblem(A, b)
@@ -1069,9 +1069,9 @@ sol = solve(prob, PyAMGJL(:smoothed_aggregation))
 
 !!! note
 
-    Using this solver requires that PyAMG.jl is loaded, i.e. `using PyAMG`. PyAMG.jl
-    uses PythonCall/PyCall under the hood and therefore also requires a Python environment
-    with `pyamg` and `scipy` installed.
+    Using this solver requires that LinearSolvePyAMG.jl is loaded, i.e.
+    `using LinearSolvePyAMG`. It uses PythonCall.jl under the hood and therefore also
+    requires a Python environment with `pyamg` and `scipy` installed.
 """
 struct PyAMGJL{K} <: SciMLLinearSolveAlgorithm
     solver::Symbol

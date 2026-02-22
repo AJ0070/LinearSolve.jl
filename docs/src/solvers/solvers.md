@@ -358,9 +358,9 @@ AlgebraicMultigridJL
 
 !!! note
 
-    Using this solver requires adding the package PyAMG.jl, i.e. `using PyAMG`. PyAMG.jl
-    calls Python's [pyamg](https://pyamg.readthedocs.io) library and therefore also requires
-    a Python installation with `scipy` and `pyamg` installed.
+    Using this solver requires loading the bundled sub-package, i.e. `using LinearSolvePyAMG`.
+    It uses PythonCall.jl under the hood and therefore also requires a Python environment
+    with `pyamg` and `scipy` installed.
 
 ```@docs
 PyAMGJL

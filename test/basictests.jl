@@ -18,6 +18,12 @@ catch
     # AlgebraicMultigrid not available, AMG tests will be skipped
 end
 
+try
+    using LinearSolvePyAMG
+catch
+    # LinearSolvePyAMG not available, PyAMG tests will be skipped
+end
+
 const Dual64 = ForwardDiff.Dual{Nothing, Float64, 1}
 
 n = 8
@@ -953,5 +959,35 @@ end
         A_rect = sparse([1.0 1.0 0.0; 0.0 1.0 1.0])
         b_rect = [1.0, 1.0]
         @test_throws AssertionError solve(LinearProblem(A_rect, b_rect), AlgebraicMultigridJL())
+    end
+end
+
+@static if isdefined(@__MODULE__, :LinearSolvePyAMG)
+    @testset "PyAMGJL" begin
+        n = 100
+        A_pyamg = spdiagm(-1 => -ones(n - 1), 0 => 2 * ones(n), 1 => -ones(n - 1))
+        b_pyamg = rand(n)
+        prob_pyamg = LinearProblem(A_pyamg, b_pyamg)
+
+        sol = solve(prob_pyamg, PyAMGJL())
+        @test norm(A_pyamg * sol.u - b_pyamg) < 1.0e-6
+
+        sol = solve(prob_pyamg, PyAMGJL(:smoothed_aggregation))
+        @test norm(A_pyamg * sol.u - b_pyamg) < 1.0e-6
+
+        sol = solve(prob_pyamg, PyAMGJL(), reltol = 1.0e-8)
+        @test norm(A_pyamg * sol.u - b_pyamg) < 1.0e-8
+
+        cache = SciMLBase.init(prob_pyamg, PyAMGJL())
+        solve!(cache)
+        b2 = rand(n)
+        cache.b = b2
+        sol2 = solve!(cache)
+        @test norm(A_pyamg * sol2.u - b2) < 1.0e-6
+        @test !cache.isfresh
+
+        A_rect = sparse([1.0 1.0 0.0; 0.0 1.0 1.0])
+        b_rect = [1.0, 1.0]
+        @test_throws AssertionError solve(LinearProblem(A_rect, b_rect), PyAMGJL())
     end
 end

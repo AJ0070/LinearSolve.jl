@@ -1,6 +1,6 @@
 module LinearSolvePyAMGExt
 
-using LinearSolve, PyAMG, SparseArrays
+using LinearSolve, LinearSolvePyAMG, SparseArrays
 using LinearSolve: LinearCache, LinearVerbosity, OperatorAssumptions
 using SciMLBase: SciMLBase, ReturnCode
 
@@ -14,9 +14,9 @@ function LinearSolve.init_cacheval(
     Asp = A isa SparseMatrixCSC ? A : sparse(A)
 
     if alg.solver === :ruge_stuben
-        return PyAMG.RugeStubenSolver(Asp; alg.kwargs...)
+        return LinearSolvePyAMG.RugeStubenSolver(Asp; alg.kwargs...)
     else # :smoothed_aggregation
-        return PyAMG.SmoothedAggregationSolver(Asp; alg.kwargs...)
+        return LinearSolvePyAMG.SmoothedAggregationSolver(Asp; alg.kwargs...)
     end
 end
 
@@ -34,7 +34,7 @@ function SciMLBase.solve!(cache::LinearCache, alg::PyAMGJL; kwargs...)
     tol = cache.reltol
     maxiter = cache.maxiters
 
-    x = PyAMG.solve(amg, cache.b; tol = tol, maxiter = maxiter, kwargs...)
+    x = LinearSolvePyAMG.solve(amg, cache.b; tol = tol, maxiter = maxiter, kwargs...)
     copyto!(cache.u, x)
 
     return SciMLBase.build_linear_solution(
