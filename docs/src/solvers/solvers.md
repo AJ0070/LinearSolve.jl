@@ -343,3 +343,25 @@ KrylovKitJL
 ```@docs
 HYPREAlgorithm
 ```
+
+### AlgebraicMultigrid.jl
+
+!!! note
+
+    Using this solver requires adding the package AlgebraicMultigrid.jl, i.e. `using AlgebraicMultigrid`
+
+```@docs
+AlgebraicMultigridJL
+```
+
+### PyAMG.jl
+
+!!! note
+
+    Using this solver requires adding the package PyAMG.jl, i.e. `using PyAMG`. PyAMG.jl
+    calls Python's [pyamg](https://pyamg.readthedocs.io) library and therefore also requires
+    a Python installation with `scipy` and `pyamg` installed.
+
+```@docs
+PyAMGJL
+```
