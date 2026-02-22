@@ -19,7 +19,7 @@ catch
 end
 
 try
-    using LinearSolvePyAMG
+    import LinearSolvePyAMG
 catch
     # LinearSolvePyAMG not available, PyAMG tests will be skipped
 end

@@ -19,9 +19,11 @@ using PythonCall
 
 const pyamg = PythonCall.pynew()
 const scipy_sparse = PythonCall.pynew()
+const np = PythonCall.pynew()
 
 function __init__()
     PythonCall.pycopy!(pyamg, pyimport("pyamg"))
+    PythonCall.pycopy!(np, pyimport("numpy"))
     return PythonCall.pycopy!(scipy_sparse, pyimport("scipy.sparse"))
 end
 
@@ -91,7 +93,8 @@ Solve the linear system using the prebuilt AMG hierarchy. Keyword arguments over
 defaults stored in `amg.kwargs` and are forwarded to the Python solver.
 """
 function solve(amg::AMGSolver, b::AbstractVector; kwargs...)
-    x = amg.po.solve(b; amg.kwargs..., kwargs...)
+    b_np = np.array(b)
+    x = amg.po.solve(b_np; amg.kwargs..., kwargs...)
     return pyconvert(Vector{Float64}, x)
 end
 
@@ -112,7 +115,7 @@ aspreconditioner(amg::AMGSolver; kwargs...) =
     AMGPreconditioner(amg.po.aspreconditioner(; kwargs...), amg.A)
 
 Base.:(\)(M::AMGPreconditioner, b::AbstractVector) =
-    pyconvert(Vector{Float64}, M.po.matvec(b))
+    pyconvert(Vector{Float64}, M.po.matvec(np.array(b)))
 
 Base.:(*)(M::AMGPreconditioner, x::AbstractVector) = M.A * x
 

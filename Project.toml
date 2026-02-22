@@ -14,6 +14,7 @@ InteractiveUtils = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 Krylov = "ba0b0d4f-ebba-5204-a429-3ac8c609bfb7"
 Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+LinearSolvePyAMG = "53b6d4db-c673-42e5-9a43-313fecdaee40"
 MKL_jll = "856f044c-d86e-5d09-b602-aeab76dc8ba7"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 OpenBLAS_jll = "4536629a-c528-5b80-bd46-f80d51c5b363"
@@ -28,8 +29,8 @@ Setfield = "efcf1570-3423-57d1-acb7-fd33fddbac46"
 StaticArraysCore = "1e83bf80-4336-4d27-bf5d-d5a4f845583c"
 
 [weakdeps]
-AlgebraicMultigrid = "2169fc97-5a83-5252-b627-83903c6c433c"
 AMDGPU = "21141c5a-9bdb-4563-92ae-f87d6854732e"
+AlgebraicMultigrid = "2169fc97-5a83-5252-b627-83903c6c433c"
 BandedMatrices = "aae01518-5342-5314-be14-df237901396f"
 BlockDiagonals = "0a1fb500-61f7-11e9-3c65-f5ef3456f9f0"
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
@@ -47,7 +48,6 @@ KrylovKit = "0b1a1467-8014-51b9-945f-bf0ae24f4b77"
 LAPACK_jll = "51474c39-65e3-53ba-86ba-03b1b862ec14"
 Metal = "dde4c033-4e86-420c-a63e-0dd931031962"
 Mooncake = "da2b9cff-9c12-43a0-ae48-6db2b0edb7d6"
-LinearSolvePyAMG = "53b6d4db-c673-42e5-9a43-313fecdaee40"
 PETSc = "ace2c81b-2b5f-4b1e-a30d-d662738edfe0"
 Pardiso = "46dd5b70-b6fb-5a00-ae2d-e8fea33afaf2"
 RecursiveFactorization = "f2c3362d-daeb-58d1-803e-2bc74f2840b4"
@@ -60,7 +60,6 @@ LinearSolvePyAMG = {path = "lib/LinearSolvePyAMG"}
 
 [extensions]
 LinearSolveAlgebraicMultigridExt = "AlgebraicMultigrid"
-LinearSolveAMDGPUExt = "AMDGPU"
 LinearSolveBLISExt = ["blis_jll", "LAPACK_jll"]
 LinearSolveBandedMatricesExt = "BandedMatrices"
 LinearSolveBlockDiagonalsExt = "BlockDiagonals"
@@ -86,8 +85,8 @@ LinearSolveSparseArraysExt = "SparseArrays"
 LinearSolveSparspakExt = ["SparseArrays", "Sparspak"]
 
 [compat]
-AlgebraicMultigrid = "1"
 AMDGPU = "1.2, 2"
+AlgebraicMultigrid = "1"
 AllocCheck = "0.2"
 Aqua = "0.8"
 ArrayInterface = "7.19"
@@ -119,6 +118,7 @@ KrylovPreconditioners = "0.3"
 LAPACK_jll = "3"
 Libdl = "1.10"
 LinearAlgebra = "1.10"
+LinearSolvePyAMG = "0.1"
 MKL_jll = "2019, 2020, 2021, 2022, 2023, 2024, 2025"
 MPI = "0.20"
 Markdown = "1.10"
@@ -126,7 +126,6 @@ Metal = "1.4"
 Mooncake = "0.4, 0.5"
 MultiFloats = "2.3, 3"
 OpenBLAS_jll = "0.3"
-LinearSolvePyAMG = "0.1"
 PETSc = "0.4.2"
 Pardiso = "1"
 Pkg = "1.10"
@@ -189,4 +188,4 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [targets]
-test = ["AlgebraicMultigrid", "Aqua", "Test", "IterativeSolvers", "InteractiveUtils", "KrylovKit", "KrylovPreconditioners", "Pkg", "Random", "SafeTestsets", "MultiFloats", "ForwardDiff", "HYPRE", "MPI", "PETSc", "BlockDiagonals", "FiniteDiff", "BandedMatrices", "FastAlmostBandedMatrices", "StaticArrays", "AllocCheck", "StableRNGs", "Zygote", "RecursiveFactorization", "Sparspak", "CliqueTrees", "FastLapackInterface", "SparseArrays", "ExplicitImports", "ComponentArrays"]
+test = ["AlgebraicMultigrid", "Aqua", "Test", "IterativeSolvers", "InteractiveUtils", "KrylovKit", "KrylovPreconditioners", "Pkg", "Random", "SafeTestsets", "MultiFloats", "ForwardDiff", "HYPRE", "MPI", "PETSc", "BlockDiagonals", "FiniteDiff", "BandedMatrices", "FastAlmostBandedMatrices", "StaticArrays", "AllocCheck", "StableRNGs", "Zygote", "RecursiveFactorization", "Sparspak", "CliqueTrees", "FastLapackInterface", "SparseArrays", "ExplicitImports", "ComponentArrays", "LinearSolvePyAMG"]
