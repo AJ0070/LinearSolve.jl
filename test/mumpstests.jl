@@ -1,5 +1,6 @@
 using LinearSolve, SparseArrays, LinearAlgebra, Test
 using MUMPS, MPI
+import LinearSolve: solve, solve!
 
 MPI.Init()
 
