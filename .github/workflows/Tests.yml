@@ -37,6 +37,7 @@ jobs:
           - "LinearSolvePETSc"
           - "LinearSolvePardiso"
           - "LinearSolveGinkgo"
+          - "LinearSolveMUMPS"
           - "NoPre"
           - "LinearSolveAutotune"
           - "LinearSolvePyAMG"
@@ -59,6 +60,12 @@ jobs:
           # Ginkgo.jl is not available on Windows
           - group: LinearSolveGinkgo
             os: windows-latest
+          # MUMPS_jll does not provide Windows binaries
+          - group: LinearSolveMUMPS
+            os: windows-latest
+          # MUMPS_jll does not provide 32-bit binaries
+          - group: LinearSolveMUMPS
+            arch: x86
     uses: "SciML/.github/.github/workflows/tests.yml@v1"
     with:
       group: "${{ matrix.group }}"

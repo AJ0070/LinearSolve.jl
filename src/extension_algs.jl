@@ -1241,3 +1241,72 @@ struct ParUFactorization <: AbstractSparseFactorization
         return new(reuse_symbolic)
     end
 end
+
+"""
+    MUMPSFactorization(; sym = 0, par = 1, icntl = nothing, cntl = nothing)
+
+A sparse direct solver using [MUMPS](https://mumps-solver.org/) (MUltifrontal
+Massively Parallel sparse direct Solver) via
+[MUMPS.jl](https://github.com/JuliaSmoothOptimizers/MUMPS.jl).
+
+MUMPS implements multifrontal LU and LDLᵀ factorizations for sparse linear
+systems. It supports real and complex arithmetic in both single and double
+precision, and can exploit matrix symmetry and positive-definiteness.
+
+!!! note "MPI required"
+    MUMPS.jl uses MPI internally. You must initialize MPI before constructing
+    a `MUMPSFactorization`:
+    ```julia
+    using MUMPS, MPI, LinearSolve
+    MPI.Init()
+    ```
+
+!!! note
+
+    Using this solver requires loading MUMPS.jl: `using MUMPS`
+
+---
+
+## Keyword Arguments
+
+| Keyword | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `sym` | `Int` | `0` | Symmetry type: `0` = unsymmetric, `1` = SPD, `2` = general symmetric. Use `MUMPS.mumps_unsymmetric`, `MUMPS.mumps_definite`, or `MUMPS.mumps_symmetric`. |
+| `par` | `Int` | `1` | Whether the host process participates in factorization: `0` = no, `1` = yes. |
+| `icntl` | `Vector{Int32}` or `nothing` | `nothing` | Integer control parameters (overrides defaults). See MUMPS manual Section 5.1. |
+| `cntl` | `Vector` or `nothing` | `nothing` | Real control parameters (overrides defaults). See MUMPS manual Section 5.2. The precision must match the element type of `A`. |
+
+---
+
+## Example
+
+```julia
+using LinearSolve, MUMPS, MPI, SparseArrays
+
+MPI.Init()
+
+A = sprand(100, 100, 0.1); A = A + A' + 20I
+b = rand(100)
+
+sol = solve(LinearProblem(A, b), MUMPSFactorization())
+```
+"""
+struct MUMPSFactorization <: AbstractSparseFactorization
+    sym::Int
+    par::Int
+    icntl::Union{Vector{Int32}, Nothing}
+    cntl::Union{Vector, Nothing}
+
+    function MUMPSFactorization(;
+            sym::Int = 0,
+            par::Int = 1,
+            icntl::Union{Vector{Int32}, Nothing} = nothing,
+            cntl::Union{Vector, Nothing} = nothing
+        )
+        ext = Base.get_extension(@__MODULE__, :LinearSolveMUMPSExt)
+        if ext === nothing
+            error("MUMPSFactorization requires that MUMPS is loaded, i.e. `using MUMPS`")
+        end
+        return new(sym, par, icntl, cntl)
+    end
+end

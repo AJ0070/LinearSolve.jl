@@ -8,6 +8,7 @@ SciMLLogging.@verbosity_specifier LinearVerbosity begin
         :KrylovJL_verbosity,
         :HYPRE_verbosity,
         :pardiso_verbosity,
+        :mumps_verbosity,
         :blas_errors,
         :blas_invalid_args,
         :blas_info,
@@ -28,6 +29,7 @@ SciMLLogging.@verbosity_specifier LinearVerbosity begin
             KrylovJL_verbosity = Silent(),
             HYPRE_verbosity = Silent(),
             pardiso_verbosity = Silent(),
+            mumps_verbosity = Silent(),
             blas_errors = Silent(),
             blas_invalid_args = Silent(),
             blas_info = Silent(),
@@ -46,6 +48,7 @@ SciMLLogging.@verbosity_specifier LinearVerbosity begin
             KrylovJL_verbosity = Silent(),
             HYPRE_verbosity = Silent(),
             pardiso_verbosity = Silent(),
+            mumps_verbosity = Silent(),
             blas_errors = WarnLevel(),
             blas_invalid_args = WarnLevel(),
             blas_info = Silent(),
@@ -64,6 +67,7 @@ SciMLLogging.@verbosity_specifier LinearVerbosity begin
             KrylovJL_verbosity = Silent(),
             HYPRE_verbosity = InfoLevel(),
             pardiso_verbosity = Silent(),
+            mumps_verbosity = Silent(),
             blas_errors = WarnLevel(),
             blas_invalid_args = WarnLevel(),
             blas_info = Silent(),
@@ -82,6 +86,7 @@ SciMLLogging.@verbosity_specifier LinearVerbosity begin
             KrylovJL_verbosity = CustomLevel(1),
             HYPRE_verbosity = InfoLevel(),
             pardiso_verbosity = CustomLevel(1),
+            mumps_verbosity = CustomLevel(1),
             blas_errors = WarnLevel(),
             blas_invalid_args = WarnLevel(),
             blas_info = InfoLevel(),
@@ -100,6 +105,7 @@ SciMLLogging.@verbosity_specifier LinearVerbosity begin
             KrylovJL_verbosity = CustomLevel(1),
             HYPRE_verbosity = InfoLevel(),
             pardiso_verbosity = CustomLevel(1),
+            mumps_verbosity = CustomLevel(1),
             blas_errors = WarnLevel(),
             blas_invalid_args = WarnLevel(),
             blas_info = InfoLevel(),
@@ -117,7 +123,7 @@ SciMLLogging.@verbosity_specifier LinearVerbosity begin
         numerical = (
             :using_IterativeSolvers, :IterativeSolvers_iterations,
             :KrylovKit_verbosity, :KrylovJL_verbosity, :HYPRE_verbosity,
-            :pardiso_verbosity, :blas_info, :blas_success, :condition_number,
+            :pardiso_verbosity, :mumps_verbosity, :blas_info, :blas_success, :condition_number,
             :convergence_failure, :solver_failure, :max_iters,
         ),
     )
@@ -146,6 +152,7 @@ diagnostic messages, warnings, and errors during linear system solution.
 - `KrylovJL_verbosity`: Verbosity level passed to Krylov.jl solvers
 - `HYPRE_verbosity`: Verbosity level passed to HYPRE solvers
 - `pardiso_verbosity`: Verbosity level passed to Pardiso solvers
+- `mumps_verbosity`: Verbosity level passed to MUMPS solvers
 - `blas_info`: Informational messages from BLAS operations
 - `blas_success`: Success messages from BLAS operations
 - `condition_number`: Messages related to condition number calculations
@@ -201,7 +208,7 @@ const performance_options = (:no_right_preconditioning,)
 const numerical_options = (
     :using_IterativeSolvers, :IterativeSolvers_iterations,
     :KrylovKit_verbosity, :KrylovJL_verbosity, :HYPRE_verbosity,
-    :pardiso_verbosity, :blas_info, :blas_success, :condition_number,
+    :pardiso_verbosity, :mumps_verbosity, :blas_info, :blas_success, :condition_number,
     :convergence_failure, :solver_failure, :max_iters,
 )
 
