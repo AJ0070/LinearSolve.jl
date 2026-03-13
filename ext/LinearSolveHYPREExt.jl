@@ -137,6 +137,14 @@ function SciMLBase.init(
         init_cache_verb = verb_spec
     end
 
+    # Ensure HYPRE (and MPI) are initialized before creating any HYPRE objects.
+    # This is needed when the user passes plain Julia arrays rather than HYPREArrays,
+    # because the conversion below would otherwise attempt to call HYPRE before Init().
+    if !(A isa HYPREMatrix || b isa HYPREVector ||
+            (u0 !== nothing && u0 isa HYPREVector) || alg.solver isa HYPRESolver)
+        HYPRE.Init()
+    end
+
     A = A isa HYPREMatrix ? A : HYPREMatrix(A)
     b = b isa HYPREVector ? b : HYPREVector(b)
     u0 = u0 isa HYPREVector ? u0 : (u0 === nothing ? nothing : HYPREVector(u0))
